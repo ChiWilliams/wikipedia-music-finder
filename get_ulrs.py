@@ -5,7 +5,24 @@ from typing import TypedDict, Dict
 
 WIKIPEDIA_ENDPOINT = 'https://en.wikipedia.org/w/api.php'
 
-def validate_wiki_response(response_json: dict) -> None:
+class WikiPage(TypedDict):
+    extract: str
+    ns: int
+    pageid: int
+    title: str
+
+class WikiQuery(TypedDict):
+     pages: Dict[str, WikiPage]
+    
+class WikiContinue(TypedDict, total=False):
+    batchcomplete: str
+WikiContinue.__annotations__['continue'] = Dict[str,str]
+
+class WikiResponse(WikiQuery, WikiContinue):
+     query: WikiQuery
+
+
+def validate_wiki_response(response_json: WikiResponse) -> None:
     if 'query' not in response_json:
         raise ValueError("Missing 'query' key in response")
     if 'pages' not in response_json['query']:
@@ -21,15 +38,14 @@ def get_random_ids(num_pages) -> list[str]:
         "rnlimit": num_pages,
     }
 
-
     response = requests.get(WIKIPEDIA_ENDPOINT, params=params, timeout=5)
     response.raise_for_status()
     data = response.json()
-    print(data)
+    #print(data)
 
     return [str(x['id']) for x in data['query']['random']]
 
-def build_getter_params(ids: list[str], continue_params: dict | None):
+def build_getter_params(ids: list[str], continue_params: Dict[str, str] | None) -> WikiQuery:
     continue_params = continue_params or {}
     params = {
         "action": "query",
@@ -42,13 +58,14 @@ def build_getter_params(ids: list[str], continue_params: dict | None):
     params.update(continue_params)
     return params
 
-def get_wiki_pages(ids: list[str], continue_params: dict = None) -> dict:
+def get_wiki_pages(ids: list[str], continue_params: WikiContinue | None = None) -> WikiResponse:
     params = build_getter_params(ids, continue_params)
     response = requests.get(WIKIPEDIA_ENDPOINT, params=params)
+    validate_wiki_response(response.json())
     response.raise_for_status()
     return response.json()
 
-def merge_responses(base, new) -> None:
+def merge_responses(base: WikiResponse, new: WikiResponse) -> None:
     for page_id, page_data in new['query']['pages'].items():
                 if 'extract' in page_data:
                     base['query']['pages'][page_id]['extract'] = page_data['extract']
@@ -76,8 +93,9 @@ def get_wikipedia_sentence_summaries(num_pages: int = 50) -> list[str]:
     return first_sentences(full_summaries)
 
 if __name__ == "__main__":
-    ids = get_random_ids(500)
+    # ids = get_random_ids(5)
+    # print(get_wiki_pages(get_random_ids(1)))
 
-    # summaries = get_wikipedia_sentence_summaries()
-    # print(summaries)
-    # print(f"{len(summaries)=}")
+    summaries = get_wikipedia_sentence_summaries()
+    print(summaries)
+    print(f"{len(summaries)=}")
