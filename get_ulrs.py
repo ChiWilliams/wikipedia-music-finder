@@ -145,16 +145,25 @@ def first_sentences(summaries: list[str]) -> list[str]:
 
 def get_wikipedia_sentence_summaries(num_pages: int = 50) -> list[str]:
     """Using multiple API calls, this function returns a given number of random 
-    wikipedia page summaries."""
+    wikipedia page summaries. It splits the num_pages into batches of 50"""
     assert num_pages > 0
-    ids = get_random_ids(num_pages)
-    full_summaries = get_full_summaries(ids)
-    return first_sentences(full_summaries)
+    summaries = []
+    summaries_remaining = num_pages
+    while summaries_remaining > 0:
+        #divide into batches of 50, for API call reasons
+        batch_size = min(summaries_remaining, 50)
+        summaries_remaining -= batch_size
+
+        ids = get_random_ids(batch_size)
+        full_summaries = get_full_summaries(ids)
+        summaries.extend(first_sentences(full_summaries))
+
+    return summaries
 
 if __name__ == "__main__":
     # ids = get_random_ids(5)
     # print(get_wiki_pages(get_random_ids(1)))
 
-    summaries = get_wikipedia_sentence_summaries()
+    summaries = get_wikipedia_sentence_summaries(60)
     print(summaries)
     print(f"{len(summaries)=}")
