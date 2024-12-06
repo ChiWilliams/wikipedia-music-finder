@@ -3,3 +3,5 @@ raw_data.txt
 raw_data_small.txt
 dataset.jsonl
 classifcations.jsonl
+classifications_small.jsonl
+images/
