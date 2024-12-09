@@ -5,3 +5,5 @@ dataset.jsonl
 classifcations.jsonl
 classifications_small.jsonl
 images/
+.env
+structure.txt

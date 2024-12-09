@@ -27,12 +27,13 @@ print(gaps.mean())
 
 # and now we graph!
 x = np.arange(1, max(gaps) + 1)
-plt.plot(x, 0.058 * (0.942)**(x-1), 'r--', label = 'Lower bound', linewidth = 2)
-plt.plot(x, 0.090 * (0.910)**(x-1), 'g--', label = 'Upper bound', linewidth = 2)
+plt.plot(x, 0.058 * (0.942)**(x-1), 'r--', label = 'p=0.058', linewidth = 2)
+plt.plot(x, 0.090 * (0.910)**(x-1), 'g--', label = 'p=0.090', linewidth = 2)
 plt.legend()
 plt.hist(gaps, bins=range(0, max(gaps) + 2, 5), density= 'true', alpha = 0.7)
 plt.xlabel('Gap Size')
-plt.ylabel('Frequency')
+plt.ylabel('Probability')
+plt.title('Probability of gap size appearing (and observed)')
 plt.show()
 
 
