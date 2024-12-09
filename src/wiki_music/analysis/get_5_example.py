@@ -1,6 +1,9 @@
 import json
 import random
 import matplotlib.pyplot as plt
+from wiki_music.utilities.data_processing import random_func
+
+random_func()
 
 with open("classifications.jsonl", "r") as jsonl:
     data = [json.loads(line) for line in jsonl]

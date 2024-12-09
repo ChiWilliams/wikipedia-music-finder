@@ -4,6 +4,9 @@ raw_data_small.txt
 dataset.jsonl
 classifcations.jsonl
 classifications_small.jsonl
-images/
-.env
 structure.txt
+images/
+.venv/
+__pycache__/
+*.pyc
+.env

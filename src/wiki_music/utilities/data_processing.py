@@ -1,12 +1,17 @@
 import json
 import random
 
-def get_data() :
-    with open("classifications.jsonl", "r") as jsonl:
+#TODO: Ask Claude if filename can be typed for a specific file-type?
+def get_data(filename) -> list[dict]:  #TODO: use custom types   
+    """This function reads from a jsonl file and returns a list of json objects"""
+    with open(filename, "r") as jsonl:
         data = [json.loads(line) for line in jsonl]
         random.shuffle(data)
         return data
 
+def summary_lengths(data: list[dict]) -> list[int]: #TODO: use custom types
+    """This function returns a list of hte lengths of each summary"""
+    return [len(x["summary"]) for x in data]
 
 def get_five_of_each(data = get_data()):
     """
@@ -32,4 +37,5 @@ def get_five_of_each(data = get_data()):
         i += 1
     return return_list
 
-print(get_five_of_each())
+def random_func():
+    print("I was called!")
