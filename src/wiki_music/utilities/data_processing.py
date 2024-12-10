@@ -13,7 +13,7 @@ def summary_lengths(data: list[dict]) -> list[int]: #TODO: use custom types
     """This function returns a list of hte lengths of each summary"""
     return [len(x["summary"]) for x in data]
 
-def get_five_of_each(data = get_data()):
+def get_five_of_each(data):
     """
     This function returns 5 music examples and 5 non_music examples
 
