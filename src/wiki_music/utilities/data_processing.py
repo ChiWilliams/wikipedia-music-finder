@@ -1,9 +1,31 @@
 import json
 import random
+from pathlib import Path
+import os
+
+def get_data_path() -> Path:
+    """Returns the path of the data_directory containing the dataset"""
+    data_dir = os.getenv("WIKI_MUSIC_DATA_DIR")
+    if data_dir is None:
+        current_dir = Path(__file__).parent
+        while not (current_dir / '.env').exists():
+            current_dir = current_dir.parent
+        data_dir = current_dir / 'data' / 'classfied_data'
+    return Path(data_dir)
+
+def get_custom_dataset() -> list[dict]:
+    """This is a wrapper for get_data() which inputs the correct filename"""
+    filename: Path = get_data_path() / 'classifications.jsonl'
+    return get_data(filename)
 
 #TODO: Ask Claude if filename can be typed for a specific file-type?
-def get_data(filename) -> list[dict]:  #TODO: use custom types   
-    """This function reads from a jsonl file and returns a list of json objects"""
+def get_data(filename: Path | str ) -> list[dict]:  #TODO: use custom types   
+    """
+    Read from a jsonl file and return a list of json objects
+    
+    Args:
+        filename: Path to the JSONL file
+    """
     with open(filename, "r") as jsonl:
         data = [json.loads(line) for line in jsonl]
         random.shuffle(data)
@@ -37,5 +59,5 @@ def get_five_of_each(data):
         i += 1
     return return_list
 
-def random_func():
-    print("I was called!")
+if __name__ == "__main__":
+    print(get_custom_dataset()[:2])
