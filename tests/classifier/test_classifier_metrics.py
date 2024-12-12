@@ -1,5 +1,5 @@
 import pytest
-from wiki_music.classifier.test_results import *
+from wiki_music.classifier.classifier_metrics import *
 from conftest import create_labeled_data_from_bools
 
 def assert_accuracy_classifier_relationship(result: ClassifierMetrics) -> None:

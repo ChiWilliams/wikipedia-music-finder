@@ -1,4 +1,4 @@
-from wiki_music.classifier.test_results import ClassifierMetrics
+from wiki_music.classifier.classifier_metrics import ClassifierMetrics
 from wiki_music.utilities.types import TextLabel
 from wiki_music.utilities.data_processing import get_prompts_from_object
 
@@ -31,7 +31,7 @@ def validate_classifier_output(
         if not isinstance(item["is_music"], bool):
             raise TypeError(f"is_music at index {i} is not a boolean")
 
-def test_classifier(classifier: callable, dataset: list[TextLabel]) -> ClassifierMetrics:
+def classifier_harness(classifier: callable, dataset: list[TextLabel]) -> ClassifierMetrics:
     """This is an interface which takes in a callable function and returns it's classifier metrics,
     given a dataset
     
