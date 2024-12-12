@@ -14,7 +14,7 @@ def simple_failure_classifier():
 def simple_success_classifier():
     """This classifier always gets the correct response on data made by create_labeled_data_from_bools"""
     def classifier(prompts: list[str]) -> list[TextLabel]:
-           return [{"summary": prompt, "is_music": "music" in prompt.lower()} 
+           return [{"summary": prompt, "is_music": not "not" in prompt.lower()} 
                 for prompt in prompts]
     return classifier
 

@@ -42,6 +42,8 @@ def classifier_harness(classifier: callable, dataset: list[TextLabel]) -> Classi
         
     Returns:
         A ClassifierMetrics object, which contains information on how well the class did"""
+    if not callable(classifier):
+        raise ValueError("classifier must be a callable")
     prompts = get_prompts_from_object(dataset)
     result = classifier(prompts)
 
