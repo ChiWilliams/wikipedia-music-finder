@@ -5,4 +5,19 @@ setup(
     version="0.1",
     package_dir={"": "src"},
     packages=find_packages(where="src"),
+    install_requires = [
+        'requests',  # for API calls
+        'blingfire', # for sentence splitting
+    ],
+    extras_require = [
+        'analysis': [
+            'numpy',
+            'matplotlib'
+        ],
+        'dev': [
+            'pytest',
+            'python-dotenv',
+            'openai'
+        ]
+    ]
 )

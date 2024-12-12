@@ -18,18 +18,22 @@ def get_custom_dataset() -> list[dict]:
     filename: Path = get_data_path() / 'classifications.jsonl'
     return get_data(filename)
 
-#TODO: Ask Claude if filename can be typed for a specific file-type?
-def get_data(filename: Path | str ) -> list[dict]:  #TODO: use custom types   
+def load_data(filename: Path) -> list[dict]:
+    """Just loads the data"""
+    with open(filename, "r") as jsonl:
+        return [json.loads(line) for line in jsonl]
+
+def get_data(filename: Path | str ) -> list[dict]: 
     """
-    Read from a jsonl file and return a list of json objects
+    Read from a jsonl file and return a shuffled_list of the data
     
     Args:
         filename: Path to the JSONL file
     """
-    with open(filename, "r") as jsonl:
-        data = [json.loads(line) for line in jsonl]
-        random.shuffle(data)
-        return data
+    data = load_data(filename)
+    random.shuffle(data)
+    return data
+
 
 def summary_lengths(data: list[dict]) -> list[int]: #TODO: use custom types
     """This function returns a list of hte lengths of each summary"""
