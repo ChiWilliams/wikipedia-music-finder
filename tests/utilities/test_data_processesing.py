@@ -64,6 +64,17 @@ def test_load_data(test_jsonl_small):
     assert all(isinstance(item, dict) for item in data)
     assert_valid_music_data_format(data)
 
+def test_get_prompts_from_object():
+    data = create_n_music_m_non_music(1,1)
+    prompts = get_prompts_from_object(data)
+    assert prompts == ["music 0", "not music 1"]
+
+def test_get_prompts_from_object_bigger():
+    data = create_labeled_data_from_bools([True,True,True,False,True])
+    prompts = get_prompts_from_object(data)
+    assert len(prompts) == 5
+    assert isinstance(prompts[0], str)
+
 def test_summary_lengths(test_jsonl_small):
     result = load_data(test_jsonl_small)
     assert summary_lengths(result) == [len("Test 1"), len("Test 2")]

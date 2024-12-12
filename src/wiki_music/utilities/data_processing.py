@@ -38,6 +38,8 @@ def get_data(filename: Path | str ) -> list[TextLabel]:
     random.shuffle(data)
     return data
 
+def get_prompts_from_object(data: list[TextLabel]) -> list[str]:
+    return [label['summary'] for label in data]
 
 def summary_lengths(data: list[TextLabel]) -> list[int]: 
     """This function returns a list of the lengths of each summary"""
