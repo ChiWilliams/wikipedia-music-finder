@@ -9,6 +9,9 @@ class ClassifierMetrics:
         self.accuracy: float = self.classifier_accuracy(classified, baseline)
         self.false_positive_rate, self.false_negative_rate = self.classifier_precision_recall(classified, baseline)
 
+    def __repr__(self):
+        return f"Accuracy: {self.accuracy} \nFalse positive rate: {self.false_positive_rate}\nFalse negative rate: {self.false_negative_rate}"
+
     @staticmethod
     def classifier_false_positives_and_negatives(
             classifier_result: list[TextLabel], 
