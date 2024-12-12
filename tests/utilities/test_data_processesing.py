@@ -1,5 +1,7 @@
 import pytest
 from wiki_music.utilities.data_processing import *
+from wiki_music.utilities.types import TextLabel
+from conftest import create_labeled_data_from_bools
 
 @pytest.fixture
 def test_data_content_small():
@@ -14,11 +16,11 @@ def test_jsonl_small(tmp_path, test_data_content_small):
     test_file.write_text("".join(test_data_content_small))
     return test_file
 
-def create_n_music_m_non_music(n: int, m: int) -> list[dict]:
-    data = [{"summary": "music sentence", "is_music": True}]*n + [{"summary": "not music sentence", "is_music": False}]*m
+def create_n_music_m_non_music(n: int, m: int) -> list[TextLabel]:
+    data = create_labeled_data_from_bools([True]*n + [False]*m)
     return data
 
-def assert_valid_music_data_format(data):
+def assert_valid_music_data_format(data: list[TextLabel]):
     """Helper function to validate music data format"""
     assert isinstance(data, list)
     assert len(data) > 0
