@@ -96,3 +96,9 @@ def test_get_five_of_each_insufficient_both():
     with pytest.raises(ValueError, match="Insufficient number of"):
         get_five_of_each(data)
 
+def test_get_five_of_each_no_argument_has_full_dataset():
+    result = get_five_of_each()
+    assert len(result) == 10
+    assert sum(1 for x in result if x["is_music"]) == 5
+    assert sum(1 for x in result if not x["is_music"]) == 5
+

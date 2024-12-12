@@ -41,7 +41,7 @@ def summary_lengths(data: list[dict]) -> list[int]: #TODO: use custom types
     """This function returns a list of the lengths of each summary"""
     return [len(x["summary"]) for x in data]
 
-def get_five_of_each(data) -> list[dict]:
+def get_five_of_each(data: list[dict] | None = None) -> list[dict]:
     """
     This function returns 5 music examples and 5 non_music examples
 
@@ -50,6 +50,9 @@ def get_five_of_each(data) -> list[dict]:
             "summary": The first sentence of a wikipedia article
             "is_music": a boolean classification
     """
+    if data is None:
+        data = get_custom_dataset()
+
     i = 0
     num_music, num_non_music = 0, 0
 
@@ -67,6 +70,3 @@ def get_five_of_each(data) -> list[dict]:
         except IndexError:
             raise ValueError(f"Insufficient number of music examples ({num_music}) or non-music examples ({num_non_music})")
     return return_list
-
-if __name__ == "__main__":
-    print(get_custom_dataset()[:2])
