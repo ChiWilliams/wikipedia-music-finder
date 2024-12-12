@@ -1,4 +1,4 @@
-import get_ulrs
+import wiki_music.data_collection.get_ulrs as get_ulrs
 
 def make_1000_summaries(filename = "descriptions.txt", num_descriptions = 1000):
     """This function runs get_wikipedia_sentence summaries and saves the output to a file"""

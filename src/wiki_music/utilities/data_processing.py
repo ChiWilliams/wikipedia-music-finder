@@ -3,6 +3,8 @@ import random
 from pathlib import Path
 import os
 
+from wiki_music.utilities.types import TextLabel
+
 CLASSIFICATION_FILE = 'classifications.jsonl'
 
 def get_data_path() -> Path:
@@ -15,17 +17,17 @@ def get_data_path() -> Path:
         data_dir = current_dir / 'data' / 'classfied_data'
     return Path(data_dir)
 
-def get_custom_dataset() -> list[dict]:
+def get_custom_dataset() -> list[TextLabel]:
     """This is a wrapper for get_data() which inputs the correct filename"""
     filename: Path = get_data_path() / CLASSIFICATION_FILE
     return get_data(filename)
 
-def load_data(filename: Path) -> list[dict]:
+def load_data(filename: Path) -> list[TextLabel]:
     """Just loads the data"""
     with open(filename, "r") as jsonl:
         return [json.loads(line) for line in jsonl]
 
-def get_data(filename: Path | str ) -> list[dict]: 
+def get_data(filename: Path | str ) -> list[TextLabel]: 
     """
     Read from a jsonl file and return a shuffled_list of the data
     
@@ -37,11 +39,11 @@ def get_data(filename: Path | str ) -> list[dict]:
     return data
 
 
-def summary_lengths(data: list[dict]) -> list[int]: #TODO: use custom types
+def summary_lengths(data: list[TextLabel]) -> list[int]: 
     """This function returns a list of the lengths of each summary"""
     return [len(x["summary"]) for x in data]
 
-def get_five_of_each(data: list[dict] | None = None) -> list[dict]:
+def get_five_of_each(data: list[TextLabel] | None = None) -> list[TextLabel]:
     """
     This function returns 5 music examples and 5 non_music examples
 
