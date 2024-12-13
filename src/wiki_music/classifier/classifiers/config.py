@@ -1,6 +1,10 @@
 BATCH_SIZE = 50
-DEFAULT_SYSTEM_PROMPT = "You are classifying Wikipedia article summaries ..." #TODO: complete initial prompt
-DEFAULT_USER_PROMPT = "Classify if each summary below describes a piece of music ..." #TODO: complete initial prompt
+DEFAULT_SYSTEM_PROMPT = """You are classifying Wikipedia articles based off the first sentence
+of the article (the summary). You are determining whether or not a given article describes a 
+piece of music, a musician, a musical, or an opera. Include disambiguation pages (those with "may
+refer to") if at least of the elements listed is a musician or points towards a musician.""" 
+
+DEFAULT_USER_PROMPT = "For each of the summaries below, classify if it describes a piece of music ..."
 MODEL = "gpt-4o-mini"
 FUNCTION_SCHEMA = {
     "name": "classify_summaries",

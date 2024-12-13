@@ -54,6 +54,7 @@ def gpt_wrapper(
     Returns:
         list[bool]: the bare classifications in order"""
     assert len(summaries) <= BATCH_SIZE
+    print(f"{len(summaries)=}")
     if len(summaries) == 0:
         return []
 
@@ -76,6 +77,7 @@ def gpt_wrapper(
 
     json_response = result.choices[0].message.tool_calls[0].function.arguments
     json_response_parsed = json.loads(json_response)
+    print(f"length is {json_response_parsed['classifications']}")
     return json_response_parsed['classifications']
 
 

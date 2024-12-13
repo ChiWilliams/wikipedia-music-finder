@@ -1,6 +1,6 @@
 from wiki_music.utilities.types import TextLabel
 
-KEYWORDS = ["song", "single", "musician", "album", "ep", "lp"]
+KEYWORDS = ["song", "single", "musician", "album", "ep", "lp", "music"]
 
 def contains_music_word(summary: str) -> TextLabel:
     return any(word in summary.lower() for word in KEYWORDS)

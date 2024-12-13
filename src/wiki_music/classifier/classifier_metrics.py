@@ -10,7 +10,10 @@ class ClassifierMetrics:
         self.false_positive_rate, self.false_negative_rate = self.classifier_precision_recall(classified, baseline)
 
     def __repr__(self):
-        return f"Accuracy: {self.accuracy} \nFalse positive rate: {self.false_positive_rate}\nFalse negative rate: {self.false_negative_rate}"
+        statement = f"Accuracy: {self.accuracy} \nFalse positive rate: {self.false_positive_rate}\nFalse negative rate: {self.false_negative_rate}"
+        statement += f"\n\nFalse positives:\n" + "\n".join(el["summary"] for el in self.false_positives)
+        statement += f"\n\nFalse negatives:\n" + "\n".join(el["summary"] for el in self.false_negatives)
+        return statement
 
     @staticmethod
     def classifier_false_positives_and_negatives(

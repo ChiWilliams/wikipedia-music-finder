@@ -21,6 +21,9 @@ def large_evaluate_classifier(classifier):
     evaluate_classifier_performance(classifier, dataset)
 
 if __name__ == "__main__":
+    from wiki_music.classifier.classifiers.gpt_classifier import gpt_classifier
     from wiki_music.classifier.classifiers.simple import simple_classifier
-    large_evaluate_classifier(simple_classifier)
-    small_evaluate_classifier(simple_classifier)
+    # small_evaluate_classifier(simple_classifier)
+    # large_evaluate_classifier(simple_classifier)
+    small_evaluate_classifier(gpt_classifier)
+    # large_evaluate_classifier(gpt_classifier)
