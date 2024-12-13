@@ -19,3 +19,9 @@ class TestSimpleClassifier(BaseClassifierInterface):
     def classifier(self):
         from wiki_music.classifier.classifiers.simple import simple_classifier
         return simple_classifier
+    
+class TestGPTClassifier(BaseClassifierInterface):
+    @pytest.fixture
+    def classifier(self):
+        from wiki_music.classifier.classifiers.gpt_classifier import gpt_classifier
+        return gpt_classifier
