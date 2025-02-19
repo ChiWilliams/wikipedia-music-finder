@@ -73,4 +73,6 @@ def get_five_of_each(data: list[TextLabel] | None = None) -> list[TextLabel]:
             i += 1
         except IndexError:
             raise ValueError(f"Insufficient number of music examples ({num_music}) or non-music examples ({num_non_music})")
+        
+    random.shuffle(return_list)
     return return_list

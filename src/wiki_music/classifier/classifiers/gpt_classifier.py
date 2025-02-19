@@ -55,6 +55,7 @@ def gpt_wrapper(
         list[bool]: the bare classifications in order"""
     assert len(summaries) <= BATCH_SIZE
     print(f"{len(summaries)=}")
+    # print(summaries)
     if len(summaries) == 0:
         return []
 
@@ -62,6 +63,8 @@ def gpt_wrapper(
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": f"{user_prompt}\n\nSummaries:\n" + "\n".join(summaries)}
     ]
+
+    print(messages)
 
     tools = TOOLS_SCHEMA
 
@@ -75,6 +78,8 @@ def gpt_wrapper(
     except Exception as e:
         raise
 
+    print(result)
+    
     json_response = result.choices[0].message.tool_calls[0].function.arguments
     json_response_parsed = json.loads(json_response)
     print(f"length is {json_response_parsed['classifications']}")

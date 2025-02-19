@@ -91,6 +91,20 @@ def build_getter_params(ids: list[str], continue_params: Dict[str, str] | None) 
     params.update(continue_params)
     return params
 
+def get_url(id: int) -> str:
+    """This gets an id and returns the url"""
+    assert isinstance(id, int), f"id must be an integer not a {type(id)}"
+    params = {
+        "action": "query",
+        "format": "json",
+        "prop": "info",
+        "inprop": "url",
+        "pageids": id
+    }
+    response = requests.get(WIKIPEDIA_ENDPOINT, params=params)
+    response.raise_for_status()
+    return response.json()['query']['pages'][str(id)]['fullurl']
+
 def get_wiki_pages(ids: list[str], continue_params: WikiContinue | None = None) -> WikiResponse:
     """
     This method takes in a list of page ids and any continue_parameters and makes a wikimedia API call
@@ -112,7 +126,9 @@ def get_wiki_pages(ids: list[str], continue_params: WikiContinue | None = None) 
 
 def merge_responses(base: WikiResponse, new: WikiResponse) -> None:
     """This is a helper function which modifies the JSON with summaries
-    to include any new summaries"""
+    to include any new summaries
+    Returns: None
+    Side effects: mutates the base WikiResponse object!"""
     for page_id, page_data in new['query']['pages'].items():
                 if 'extract' in page_data:
                     base['query']['pages'][page_id]['extract'] = page_data['extract']
@@ -164,6 +180,8 @@ if __name__ == "__main__":
     # ids = get_random_ids(5)
     # print(get_wiki_pages(get_random_ids(1)))
 
-    summaries = get_wikipedia_sentence_summaries(60)
-    print(summaries)
-    print(f"{len(summaries)=}")
+    # summaries = get_wikipedia_sentence_summaries(60)
+    # print(summaries)
+    # print(f"{len(summaries)=}")
+
+    print(get_url(56887264))

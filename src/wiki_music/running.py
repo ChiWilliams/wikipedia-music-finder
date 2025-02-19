@@ -1,0 +1,3 @@
+from wiki_music.data_collection.get_ulrs import get_wikipedia_sentence_summaries
+
+print(get_wikipedia_sentence_summaries())

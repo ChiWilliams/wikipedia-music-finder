@@ -4,7 +4,8 @@ of the article (the summary). You are determining whether or not a given article
 piece of music, a musician, a musical, or an opera. Include disambiguation pages (those with "may
 refer to") if at least of the elements listed is a musician or points towards a musician.""" 
 
-DEFAULT_USER_PROMPT = "For each of the summaries below, classify if it describes a piece of music ..."
+DEFAULT_USER_PROMPT = """For each of the summaries below, classify if it describes a piece of music.
+Return a list that has the same number of elements as the """
 MODEL = "gpt-4o-mini"
 FUNCTION_SCHEMA = {
     "name": "classify_summaries",
@@ -16,7 +17,9 @@ FUNCTION_SCHEMA = {
                 "type": "array",
                 "items": {
                     "type": "boolean"
-                }
+                },
+                "minItems": 10,
+                "maxItems": 10
             }
         },
         "required": ["classifications"],
