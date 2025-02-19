@@ -91,9 +91,12 @@ def build_getter_params(ids: list[str], continue_params: Dict[str, str] | None) 
     params.update(continue_params)
     return params
 
-def get_url(id: int) -> str:
+def get_url(id: str) -> str:
     """This gets an id and returns the url"""
-    assert isinstance(id, int), f"id must be an integer not a {type(id)}"
+    try:
+        id = int(id)
+    except ValueError:
+        raise ValueError("Get_url only accepts an integer, or a string of an integer:", id)
     params = {
         "action": "query",
         "format": "json",
@@ -108,6 +111,7 @@ def get_url(id: int) -> str:
 def get_wiki_pages(ids: list[str], continue_params: WikiContinue | None = None) -> WikiResponse:
     """
     This method takes in a list of page ids and any continue_parameters and makes a wikimedia API call
+    The wikimedia call includes an extract.
 
     args:
         ids: list of ids
@@ -177,11 +181,8 @@ def get_wikipedia_sentence_summaries(num_pages: int = 50) -> list[str]:
     return summaries
 
 if __name__ == "__main__":
-    # ids = get_random_ids(5)
-    # print(get_wiki_pages(get_random_ids(1)))
+    print(get_wiki_pages(get_random_ids(30)))
 
     # summaries = get_wikipedia_sentence_summaries(60)
     # print(summaries)
     # print(f"{len(summaries)=}")
-
-    print(get_url(56887264))
