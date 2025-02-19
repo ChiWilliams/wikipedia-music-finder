@@ -159,26 +159,32 @@ def get_full_summaries(ids: list[str]) -> list[str]:
                 for _,x in wiki_responses['query']['pages'].items() 
                 if 'extract' in x]
 
-def first_sentences(summaries: list[str]) -> list[str]:
+def first_sentences(summaries: list[str]) -> dict[str,str]:
     """Uses the blingfire package to get the first sentence of a list of strings"""
     return [ text_to_sentences(summary).split('\n')[0] for summary in summaries ]
 
-def get_wikipedia_sentence_summaries(num_pages: int = 50) -> list[str]:
+def get_wikipedia_summaries_and_ids(num_pages: int = 50) -> list[str]:
     """Using multiple API calls, this function returns a given number of random 
     wikipedia page summaries. It splits the num_pages into batches of 50"""
     assert num_pages > 0
     summaries = []
+    ids = []
     summaries_remaining = num_pages
     while summaries_remaining > 0:
         #divide into batches of 50, for API call reasons
         batch_size = min(summaries_remaining, 50)
         summaries_remaining -= batch_size
 
-        ids = get_random_ids(batch_size)
-        full_summaries = get_full_summaries(ids)
+        batch_ids = get_random_ids(batch_size)
+        ids.extend(batch_ids)
+        full_summaries = get_full_summaries(batch_ids)
         summaries.extend(first_sentences(full_summaries))
 
-    return summaries
+    return dict(zip(summaries,ids))
+
+def get_wikipedia_sentence_summaries(num_pages: int = 50) -> list[str]:
+    """This is a wrapper for get_wikipedia_summaries_and_ids which just gets the summaries"""
+    return list(get_wikipedia_summaries_and_ids(num_pages).keys())
 
 if __name__ == "__main__":
     print(get_wiki_pages(get_random_ids(30)))
