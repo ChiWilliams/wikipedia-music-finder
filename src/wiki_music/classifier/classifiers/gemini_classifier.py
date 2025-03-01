@@ -6,6 +6,7 @@ import json
 from typing import List, Dict
 
 from wiki_music.utilities.types import TextLabel
+from wiki_music.classifier.classifiers.config import GEMINI_PROMPT
 
 load_dotenv()
 
@@ -52,20 +53,7 @@ def gemini_wrapper(summaries: List[str]) -> List[bool]:
     if not summaries:
         return []
     
-    prompt = """You are classifying Wikipedia articles based on their first sentence (summary).
-Determine if each summary describes music-related content (piece of music, musician, musical, opera).
-Include disambiguation pages if at least one element is music-related. Err on the side of false negatives rather than false positives.
-
-Do not include  actors, painters, directors, or other non-musical artists. Do not include radio stations
-
-Respond with ONLY a JSON object containing a "classifications" array of boolean values (true for music-related, false otherwise).
-Do not include any markdown formatting, explanation, or additional text.
-
-Example response:
-{"classifications": [true, false, true]}
-
-Summaries to classify:
-""" + "\n".join(f"{i+1}. {summary}" for i, summary in enumerate(summaries))
+    prompt = GEMINI_PROMPT + "\n".join(f"{i+1}. {summary}" for i, summary in enumerate(summaries))
 
     try:
         response = client.models.generate_content(
