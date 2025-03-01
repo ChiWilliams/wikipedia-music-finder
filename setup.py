@@ -8,6 +8,7 @@ setup(
     install_requires = [
         'requests',  # for API calls
         'blingfire', # for sentence splitting
+        'google-genai', # for Gemini
     ],
     extras_require = [
         'analysis': [
@@ -17,7 +18,7 @@ setup(
         'dev': [
             'pytest',
             'python-dotenv',
-            'openai'
+            'openai',
         ]
     ]
 )

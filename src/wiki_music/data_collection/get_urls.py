@@ -163,7 +163,7 @@ def first_sentences(summaries: list[str]) -> dict[str,str]:
     """Uses the blingfire package to get the first sentence of a list of strings"""
     return [ text_to_sentences(summary).split('\n')[0] for summary in summaries ]
 
-def get_wikipedia_summaries_and_ids(num_pages: int = 50) -> list[str]:
+def get_wikipedia_summaries_and_ids(num_pages: int = 50) -> dict[str,int]:
     """Using multiple API calls, this function returns a given number of random 
     wikipedia page summaries. It splits the num_pages into batches of 50"""
     assert num_pages > 0
