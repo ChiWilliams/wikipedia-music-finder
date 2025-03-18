@@ -152,23 +152,31 @@ def get_all_wiki_responses(ids: list[str]) -> WikiResponse:
     return summaries
     
 def get_full_summaries(ids: list[str]) -> list[str]:
-    """Extract summaries from Wikipedia response"""
+    """Extract summaries from Wikipedia response in the same order as the input IDs"""
     assert len(ids) <= 50
     wiki_responses = get_all_wiki_responses(ids)
-    return [ x['extract'] 
-                for _,x in wiki_responses['query']['pages'].items() 
-                if 'extract' in x]
+    pages = wiki_responses['query']['pages']
+    
+    # Return summaries in the same order as input IDs
+    return [
+        pages[id_str]['extract']
+        for id_str in ids
+        if 'extract' in pages[id_str]
+    ]
 
 def first_sentences(summaries: list[str]) -> dict[str,str]:
     """Uses the blingfire package to get the first sentence of a list of strings"""
     return [ text_to_sentences(summary).split('\n')[0] for summary in summaries ]
 
-def get_wikipedia_summaries_and_ids(num_pages: int = 50) -> dict[str,int]:
+def get_wikipedia_summaries_and_ids(num_pages: int = 50) -> list[tuple[str, int]]:
     """Using multiple API calls, this function returns a given number of random 
-    wikipedia page summaries. It splits the num_pages into batches of 50"""
+    wikipedia page summaries. It splits the num_pages into batches of 50
+    
+    Returns:
+        List of (summary, id) tuples in the order they were fetched
+    """
     assert num_pages > 0
-    summaries = []
-    ids = []
+    result = []
     summaries_remaining = num_pages
     while summaries_remaining > 0:
         #divide into batches of 50, for API call reasons
@@ -176,15 +184,17 @@ def get_wikipedia_summaries_and_ids(num_pages: int = 50) -> dict[str,int]:
         summaries_remaining -= batch_size
 
         batch_ids = get_random_ids(batch_size)
-        ids.extend(batch_ids)
         full_summaries = get_full_summaries(batch_ids)
-        summaries.extend(first_sentences(full_summaries))
+        first_sentences_list = first_sentences(full_summaries)
+        
+        # Create tuples of (summary, id) in order
+        result.extend(list(zip(first_sentences_list, map(int, batch_ids))))
 
-    return dict(zip(summaries,ids))
+    return result
 
 def get_wikipedia_sentence_summaries(num_pages: int = 50) -> list[str]:
     """This is a wrapper for get_wikipedia_summaries_and_ids which just gets the summaries"""
-    return list(get_wikipedia_summaries_and_ids(num_pages).keys())
+    return [summary for summary, _ in get_wikipedia_summaries_and_ids(num_pages)]
 
 if __name__ == "__main__":
     print(get_wiki_pages(get_random_ids(30)))
