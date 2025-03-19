@@ -10,3 +10,4 @@ ADD . /code
 
 # Make sure the app is accessible from outside
 ENV HOST=0.0.0.0
+CMD ["python", "src/wiki_music/api/run.py"]
