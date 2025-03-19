@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from wiki_music.url_finder import get_random_music_url_with_summary
 
@@ -16,15 +17,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
     """Welcome message for the API."""
-    return {
-        "message": "Welcome to the Wikipedia Music Finder API!",
-        "endpoints": {
-            "random_music": "/random-music - Get a random Wikipedia article about music"
-        }
-    }
+    with open("src/wiki_music/api/index.html", "r") as file:
+        return file.read()
 
 @app.get("/random-music")
 async def get_random_music():
