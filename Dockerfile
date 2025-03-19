@@ -1,12 +1,10 @@
-FROM python:3.12.3
-WORKDIR /app
+FROM python:3.12.7
 
-# Copy requirements first for better caching
-COPY requirements.txt .
+# docker will not re-pip install if requirements.txt doesn't change
+WORKDIR /code
+ADD ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
 
-# Copy the rest of the application
-COPY . .
+ADD . /code
 
-# Make sure the app is accessible from outside
-ENV HOST=0.0.0.0
+CMD ["python", "src/wiki_music/api/run.py"]
