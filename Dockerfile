@@ -7,7 +7,7 @@ ADD ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
 
 ADD . /code
-RUN pip install --no-cache-dir -e .
+RUN pip install .
 
 # Make sure the app is accessible from outside
 ENV HOST=0.0.0.0
