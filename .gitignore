@@ -11,3 +11,5 @@ __pycache__/
 *.pyc
 .env
 docs/
+test_gemini.py
+test_url_finder.py

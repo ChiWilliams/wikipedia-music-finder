@@ -16,6 +16,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+async def root():
+    """Welcome message for the API."""
+    return {
+        "message": "Welcome to the Wikipedia Music Finder API!",
+        "endpoints": {
+            "random_music": "/random-music - Get a random Wikipedia article about music"
+        }
+    }
+
 @app.get("/random-music")
 async def get_random_music():
     """Get a random Wikipedia article about music."""

@@ -1,0 +1,9 @@
+{
+    "version": "1.0",
+    "services": {
+        "web": {
+            "command": "python -m wiki_music.api.run",
+            "port": 8000
+        }
+    }
+}
