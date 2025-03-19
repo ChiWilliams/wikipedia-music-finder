@@ -6,5 +6,6 @@ ADD ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
 
 ADD . /code
+RUN pip install -e .
 
 CMD ["python", "src/wiki_music/api/run.py"]
