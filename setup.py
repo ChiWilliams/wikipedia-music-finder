@@ -5,12 +5,12 @@ setup(
     version="0.1",
     package_dir={"": "src"},
     packages=find_packages(where="src"),
-    install_requires = [
+    install_requires=[
         'requests',  # for API calls
         'blingfire', # for sentence splitting
         'google-genai', # for Gemini
     ],
-    extras_require = [
+    extras_require={
         'analysis': [
             'numpy',
             'matplotlib'
@@ -20,5 +20,5 @@ setup(
             'python-dotenv',
             'openai',
         ]
-    ]
+    }
 )
