@@ -5,6 +5,7 @@ WORKDIR /app
 WORKDIR /code
 ADD ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -e .
 
 ADD . /code
 
