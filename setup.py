@@ -9,6 +9,8 @@ setup(
         'requests',  # for API calls
         'blingfire', # for sentence splitting
         'google-genai', # for Gemini
+        'fastapi',
+        'uvicorn',
     ],
     extras_require={
         'analysis': [
@@ -19,6 +21,7 @@ setup(
             'pytest',
             'python-dotenv',
             'openai',
+            'fastapi-cli',
         ]
     }
 )
